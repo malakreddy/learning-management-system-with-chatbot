@@ -1,6 +1,10 @@
 import axios from 'axios';
 
 const getBaseURL = () => {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  
   if (typeof window !== 'undefined') {
     const hostname = window.location.hostname;
     // If we're on a LAN IP, point to the same IP on port 5000
@@ -41,7 +45,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const res = await axios.post(
-          'http://localhost:5000/api/auth/refresh',
+          `${originalRequest.baseURL}/auth/refresh`,
           {},
           { withCredentials: true }
         );
@@ -55,7 +59,7 @@ api.interceptors.response.use(
         // Refresh failed, user needs to re-login.
         // Zustand store will need to be cleared, or redirect to /login
         if (typeof window !== 'undefined') {
-             window.dispatchEvent(new Event('auth-logout'));
+          window.dispatchEvent(new Event('auth-logout'));
         }
         return Promise.reject(refreshError);
       }
