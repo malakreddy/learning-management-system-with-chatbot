@@ -11,6 +11,8 @@ import {
   GraduationCap, CheckCircle2
 } from "lucide-react";
 import { motion } from "framer-motion";
+import Chatbot from "@/components/Chatbot";
+
 
 interface Subject {
   id: string;
@@ -207,7 +209,7 @@ export default function DashboardPage() {
             ) : enrollments.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {enrollments.map((enrollment, idx) => (
-                  <motion.div 
+                   <motion.div 
                     key={enrollment.id}
                     initial={{ opacity: 0, scale: 0.98 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -297,6 +299,7 @@ export default function DashboardPage() {
           </section>
         </div>
       </main>
+      <Chatbot />
     </div>
   );
 }
